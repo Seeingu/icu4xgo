@@ -1,0 +1,10 @@
+# License: https://github.com/unicode-org/icu4x/blob/main/LICENSE
+[package]
+edition = "2021"
+name = "unused"
+
+[lib]
+path = "unused"
+
+[dependencies]
+icu_capi = "2.0.0-beta1"
