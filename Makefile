@@ -8,8 +8,8 @@ ALL_HEADERS := $(wildcard ${HEADERS}/*)
 rustlib: Cargo.toml
 	cargo rustc -p icu_capi --crate-type staticlib --release
 
-header: rustlib
-	cp -r ${ALL_HEADERS} ./c/include
+header: 
+	cp -r ${HEADERS} ./c/include
 
 clib: c/* rustlib header 
 	cmake -B build

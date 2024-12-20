@@ -18,8 +18,10 @@ jobs:
     - name: Set up Rust
       uses: actions-rust-lang/setup-rust-toolchain@v1
 
-    - name: Build Project
-      uses: threeal/cmake-action@v2.1.0
+    - name: Set up CMake
+      uses: jwlawson/actions-setup-cmake@v2
+      with:
+        cmake-version: '3.16.x'
 
     - name: Build project
       run: |
