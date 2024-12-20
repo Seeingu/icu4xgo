@@ -1,4 +1,4 @@
-#include "./icugo.h"
+#include "./locale.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -23,6 +23,41 @@ const char *ig_get_locale_language(IGLocale *l)
 {
     DiplomatWrite *write = diplomat_buffer_write_create(0);
     icu4x_Locale_language_mv1(l->locale, write);
+    return diplomat_buffer_write_get_bytes(write);
+}
+
+const char *ig_get_locale_basename(IGLocale *IGLocale)
+{
+    DiplomatWrite *write = diplomat_buffer_write_create(0);
+    icu4x_Locale_basename_mv1(IGLocale->locale, write);
+    return diplomat_buffer_write_get_bytes(write);
+}
+
+const char *ig_get_locale_script(IGLocale *IGLocale)
+{
+    DiplomatWrite *write = diplomat_buffer_write_create(0);
+    icu4x_Locale_script_mv1(IGLocale->locale, write);
+    return diplomat_buffer_write_get_bytes(write);
+}
+
+const char *ig_get_locale_region(IGLocale *IGLocale)
+{
+    DiplomatWrite *write = diplomat_buffer_write_create(0);
+    icu4x_Locale_region_mv1(IGLocale->locale, write);
+    return diplomat_buffer_write_get_bytes(write);
+}
+
+const char *ig_get_locale_extension(IGLocale *IGLocale, const char *extension)
+{
+    DiplomatWrite *write = diplomat_buffer_write_create(0);
+    struct DiplomatStringView extension_str = {
+        extension,
+        strlen(extension)};
+    icu4x_Locale_get_unicode_extension_mv1_result result = icu4x_Locale_get_unicode_extension_mv1(IGLocale->locale, extension_str, write);
+    if (!result.is_ok)
+    {
+        return NULL;
+    }
     return diplomat_buffer_write_get_bytes(write);
 }
 

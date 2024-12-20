@@ -4,5 +4,5 @@ import "fmt"
 
 func main() {
 	l := NewLocale("en-US")
-	fmt.Println("Language:", l.GetLanguage())
+	fmt.Println("Language:", l.Language())
 }
