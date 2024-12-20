@@ -1,4 +1,4 @@
-package main
+package icu4xgo
 
 import (
 	"testing"

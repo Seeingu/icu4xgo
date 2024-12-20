@@ -1,7 +1,7 @@
-package main
+package icu4xgo
 
 //#cgo LDFLAGS: -L./target/release -L./build/c -licu4xgo -licu_capi -lm
-//#include "lib.h"
+//#include "./lib.h"
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
