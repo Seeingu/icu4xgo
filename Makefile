@@ -21,5 +21,10 @@ build: *.go clib
 run: *.go
 	go run .
 
+test: *.go
+	go test ./...
+
 clean:
-	rm $(OUT_FILES)
+	rm -rf build
+	rm -rf c/include
+	rm -rf target
