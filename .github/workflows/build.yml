@@ -1,0 +1,28 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.23'
+
+    - name: Set up Rust
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+
+    - name: Install CMake
+      run: sudo apt-get update && sudo apt-get install -y cmake
+
+    - name: Build project
+      run: |
+        go version
+        cargo --version
+        cmake --version
