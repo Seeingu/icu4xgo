@@ -1,4 +1,4 @@
-#include "./locale.h"
+#include "./ig_locale.h"
 #include <string.h>
 #include <stdlib.h>
 

@@ -1,6 +1,6 @@
 #ifndef ICUGO_H
 #define ICUGO_H
 
-#include "./locale.h"
+#include "./ig_locale.h"
 
 #endif // ICUGO_H
