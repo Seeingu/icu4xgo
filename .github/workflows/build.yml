@@ -23,11 +23,26 @@ jobs:
       with:
         cmake-version: '3.16.x'
 
-    - name: Build project
+    - name: Check versions
       run: |
         go version
-        cargo --version
+        rustc --version
         cmake --version
+
+    - name: Build project
+      run: |
 
         make build
         go test ./...
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: c-libraries-linux
+        path: |
+          target/release/libicu_capi.a
+          build/c/libic4xgo.a
+          c/include/*.h
+          c/*.h
+          c/*.pc
+
