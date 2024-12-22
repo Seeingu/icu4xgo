@@ -27,6 +27,7 @@ test: *.go
 install:
 	mkdir -p /usr/local/lib
 	mkdir -p /usr/local/include/icu4xgo
+	cp ./c/libicu4xgo.pc /usr/lib/pkgconfig
 	cp ./build/c/libicu4xgo.a /usr/local/lib/
 	cp ./target/release/libicu_capi.a /usr/local/lib/
 	cp -r ./c/include/* /usr/local/include/icu4xgo
