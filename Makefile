@@ -4,6 +4,8 @@ ICU_CAPI := $(shell cargo metadata --format-version 1 | jq '.packages[] | select
 HEADERS := ${ICU_CAPI}/bindings/c
 ALL_HEADERS := $(wildcard ${HEADERS}/*)
 # -----
+LIB_PATH := /usr/local/lib
+INCLUDE_PATH := /usr/local/include
 
 rustlib: Cargo.toml
 	cargo rustc -p icu_capi --crate-type staticlib --release
@@ -14,24 +16,13 @@ header:
 clib: c/* rustlib header 
 	cmake -B build
 	cd ./build && make
+	cd ./build && sudo make install
 
 build: *.go clib
 	go build .
 
-run: *.go
-	go run .
-
 test: *.go
 	go test ./...
-
-install:
-	mkdir -p /usr/local/lib
-	mkdir -p /usr/local/include/icu4xgo
-	cp ./c/libicu4xgo.pc /usr/lib/pkgconfig
-	cp ./build/c/libicu4xgo.a /usr/local/lib/
-	cp ./target/release/libicu_capi.a /usr/local/lib/
-	cp -r ./c/include/* /usr/local/include/icu4xgo
-	cp -r ./c/*.h /usr/local/include/icu4xgo
 
 clean:
 	rm -rf build

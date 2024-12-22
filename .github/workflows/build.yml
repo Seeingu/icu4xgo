@@ -29,11 +29,6 @@ jobs:
         rustc --version
         cmake --version
 
-    - name: Setup lib
-      run: |
-        make install
-        pkg-config --cflags --libs libicu4xgo
-
     - name: Build project
       run: |
         make build
