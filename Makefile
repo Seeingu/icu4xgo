@@ -24,6 +24,14 @@ run: *.go
 test: *.go
 	go test ./...
 
+install:
+	mkdir -p /usr/local/lib
+	mkdir -p /usr/local/include/icu4xgo
+	cp ./build/c/libicu4xgo.a /usr/local/lib/
+	cp ./target/release/libicu_capi.a /usr/local/lib/
+	cp -r ./c/include/* /usr/local/include/icu4xgo
+	cp -r ./c/*.h /usr/local/include/icu4xgo
+
 clean:
 	rm -rf build
 	rm -rf c/include
