@@ -4,7 +4,11 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
 
     steps:
     - name: Checkout repository
@@ -37,7 +41,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: c-libraries-linux
+        name: c-libraries-${{ matrix.os }}
         path: |
           target/release/libicu_capi.a
           build/c/libic4xgo.a
