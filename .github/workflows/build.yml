@@ -44,7 +44,7 @@ jobs:
         name: c-libraries-${{ matrix.os }}
         path: |
           target/release/libicu_capi.a
-          build/c/libic4xgo.a
+          build/c/libicu4xgo.a
           c/icu4x
           c/*.h
 
