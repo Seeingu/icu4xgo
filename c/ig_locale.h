@@ -1,8 +1,8 @@
 #ifndef ICUGO_LOCALE_H
 #define ICUGO_LOCALE_H
 
-#include "Locale.h"
-#include "diplomat_runtime.h"
+#include "./icu4x/Locale.h"
+#include "./icu4x/diplomat_runtime.h"
 
 typedef struct IGLocale
 {

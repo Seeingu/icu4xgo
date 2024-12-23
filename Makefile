@@ -11,7 +11,7 @@ rustlib: Cargo.toml
 	cargo rustc -p icu_capi --crate-type staticlib --release
 
 header: 
-	cp -r ${HEADERS} ./c/include
+	cp -r ${HEADERS} ./c/icu4x
 
 clib: c/* rustlib header 
 	cmake -B build
@@ -26,5 +26,5 @@ test: *.go
 
 clean:
 	rm -rf build
-	rm -rf c/include
+	rm -rf c/icu4x
 	rm -rf target

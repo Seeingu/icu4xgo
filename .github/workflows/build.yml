@@ -45,7 +45,6 @@ jobs:
         path: |
           target/release/libicu_capi.a
           build/c/libic4xgo.a
-          c/include/*.h
+          c/icu4x
           c/*.h
-          c/*.pc
 
