@@ -7,7 +7,8 @@ set(SRC_FILES
 )
 
 add_library(icu4xgo STATIC ${SRC_FILES})
-target_include_directories(icu4xgo PUBLIC include)
+
+target_include_directories(icu4xgo PUBLIC icu4x)
 
 find_library(ICU_CAPI_LIBRARY NAMES icu_capi PATHS ../target/release)
 
@@ -18,6 +19,6 @@ else()
 endif()
 
 install(TARGETS icu4xgo DESTINATION lib)
-install(DIRECTORY include/ DESTINATION include)
 file(GLOB HEADER_FILES "*.h")
-install(FILES ${HEADER_FILES} DESTINATION include)
+install(FILES ${HEADER_FILES} DESTINATION include/icu4xgo)
+install(DIRECTORY icu4x DESTINATION include/icu4xgo)

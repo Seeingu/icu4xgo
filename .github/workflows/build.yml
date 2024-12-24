@@ -4,7 +4,11 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
 
     steps:
     - name: Checkout repository
@@ -31,17 +35,20 @@ jobs:
 
     - name: Build project
       run: |
-        make build
-        go test ./...
+        make all
+
+    - name: Pre Upload artifacts
+      run: |
+        mkdir icu4xgo
+        cp -r c/icu4x c/*.h icu4xgo
+        mv target/release/libicu_capi.a ./
+        mv build/c/libicu4xgo.a ./
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: c-libraries-linux
+        name: c-libraries-${{ matrix.os }}-${{ runner.arch }}
         path: |
-          target/release/libicu_capi.a
-          build/c/libic4xgo.a
-          c/include/*.h
-          c/*.h
-          c/*.pc
+          icu4xgo
+          *.a
 
