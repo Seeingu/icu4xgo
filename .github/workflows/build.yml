@@ -35,9 +35,7 @@ jobs:
 
     - name: Build project
       run: |
-        make clib
-        make build
-        go test ./...
+        make all
 
     - name: Pre Upload artifacts
       run: |

@@ -24,6 +24,8 @@ build: *.go
 test: *.go
 	go test ./...
 
+all: clib build test
+
 clean:
 	rm -rf build
 	rm -rf c/icu4x
