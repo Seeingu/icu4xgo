@@ -18,7 +18,7 @@ clib: c/* rustlib header
 	cd ./build && make
 	cd ./build && sudo make install
 
-build: *.go clib
+build: *.go
 	go build .
 
 test: *.go
