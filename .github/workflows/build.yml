@@ -39,16 +39,13 @@ jobs:
 
     - name: Pre Upload artifacts
       run: |
-        mkdir icu4xgo
-        cp -r c/icu4x c/*.h icu4xgo
         mv target/release/libicu_capi.a ./
-        mv build/c/libicu4xgo.a ./
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: c-libraries-${{ matrix.os }}-${{ runner.arch }}
         path: |
-          icu4xgo
+          icu4x
           *.a
 
