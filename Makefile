@@ -4,19 +4,15 @@ ICU_CAPI := $(shell cargo metadata --format-version 1 | jq '.packages[] | select
 HEADERS := ${ICU_CAPI}/bindings/c
 ALL_HEADERS := $(wildcard ${HEADERS}/*)
 # -----
-LIB_PATH := /usr/local/lib
-INCLUDE_PATH := /usr/local/include
+LIB_PATH := ./lib
+INCLUDE_PATH := icu4x
 
-rustlib: Cargo.toml
+rustlib: Cargo.toml header
 	cargo rustc -p icu_capi --crate-type staticlib --release
+	cp ./target/release/libicu_capi.a ${LIB_PATH}
 
 header: 
-	cp -r ${HEADERS} ./c/icu4x
-
-clib: c/* rustlib header 
-	cmake -B build
-	cd ./build && make
-	cd ./build && sudo make install
+	cp -r ${HEADERS} ${INCLUDE_PATH}
 
 build: *.go
 	go build .
@@ -24,9 +20,8 @@ build: *.go
 test: *.go
 	go test ./...
 
-all: clib build test
+all: rustlib build test
 
 clean:
 	rm -rf build
-	rm -rf c/icu4x
 	rm -rf target

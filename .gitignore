@@ -34,8 +34,10 @@
 
 .idea
 
-build
-
 .vscode
 
 /icu4xgo
+
+icu4x
+
+*.a
