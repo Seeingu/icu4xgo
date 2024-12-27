@@ -14,6 +14,10 @@ rustlib: Cargo.toml header
 header: 
 	cp -r ${HEADERS} ${INCLUDE_PATH}
 
+install:
+	mkdir -p /usr/local/lib
+	sudo cp ${LIB_PATH}/libicu_capi.a /usr/local/lib
+
 build: *.go
 	go build .
 
