@@ -7,11 +7,11 @@ ALL_HEADERS := $(wildcard ${HEADERS}/*)
 LIB_PATH := ./lib
 INCLUDE_PATH := icu4x
 
-rustlib: Cargo.toml header
+rustlib: Cargo.toml
 	cargo rustc -p icu_capi --crate-type staticlib --release
 	cp ./target/release/libicu_capi.a ${LIB_PATH}
 
-header: 
+header: rustlib
 	cp -r ${HEADERS} ${INCLUDE_PATH}
 
 install:
@@ -24,7 +24,7 @@ build: *.go
 test: *.go
 	go test ./...
 
-all: rustlib build test
+all: header build test
 
 clean:
 	rm -rf build
