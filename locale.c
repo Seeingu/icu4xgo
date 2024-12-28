@@ -61,8 +61,8 @@ const char *ig_get_locale_extension(IGLocale *IGLocale, const char *extension)
     return diplomat_buffer_write_get_bytes(write);
 }
 
-void ig_free_locale(IGLocale *IGLocale)
+void ig_free_locale(IGLocale *l)
 {
-    icu4x_Locale_destroy_mv1(IGLocale->locale);
-    free(IGLocale);
+    icu4x_Locale_destroy_mv1(l->locale);
+    free(l);
 }

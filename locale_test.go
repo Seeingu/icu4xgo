@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLocle(t *testing.T) {
+func TestLocale(t *testing.T) {
 	t.Run("Locale", func(t *testing.T) {
 		locale := NewLocale("zh-Hans-CN-u-ca-chinese-hc-h12")
 		defer locale.Free()
