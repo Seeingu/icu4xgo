@@ -1,7 +1,7 @@
 package icu4xgo
 
 //#cgo LDFLAGS: -L./lib -licu_capi -lm
-//#include <./icu4xgo.h>
+//#include "./icu4xgo.h"
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
@@ -90,6 +90,5 @@ func (l *Locale) Numeric() (bool, bool) {
 }
 
 func (l *Locale) Free() {
-
 	C.ig_free_locale(l.ptr)
 }
