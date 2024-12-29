@@ -1,6 +1,5 @@
 package icu4xgo
 
-//#cgo LDFLAGS: -L./lib -licu_capi -lm
 //#include <icu4xgo.h>
 //#include <stdlib.h>
 //#include <string.h>
@@ -16,6 +15,7 @@ func NewCollator(l *Locale) *Collator {
 		ptr: C.ig_init_collator(l.ptr, options.ToC()),
 	}
 }
+
 func NewCollatorWithOptions(l *Locale, options CollatorOptions) *Collator {
 	return &Collator{
 		ptr: C.ig_init_collator(l.ptr, options.ToC()),
