@@ -29,3 +29,6 @@ all: header build test
 clean:
 	rm -rf build
 	rm -rf target
+
+fmt: *.go
+	gofumpt -w -l .
