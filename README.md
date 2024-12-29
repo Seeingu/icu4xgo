@@ -1,6 +1,6 @@
 # icu4xgo
 
-This is a Go port of the ICU4X project. It includes a C wrapper for ICU4X's CFFI binding, which provides internationalization capabilities for software applications.
+This is a Go binding to the [ICU4X](https://github.com/unicode-org/icu4x) C FFI
 
 ## Features
 
@@ -11,13 +11,15 @@ Prerequisites
 - [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html): We'll use Cargo to build C static library
 
 ```bash
-go get github.com/Seeingu/icu4xgo@0.1.1
+# or use latest commit, e.g:
+# go get github.com/Seeingu/icu4xgo@2188b6255e13106e0ee1725170037a0cf1777e8f
+go get github.com/Seeingu/icu4xgo@v0.1.1
 
-# If you encounter permission issues, run with sudo
+# If you encounter permission issues, run make with sudo
 cd `go list -f "{{.Dir}}" github.com/Seeingu/icu4xgo` && make rustlib
 ```
 
-### Build from source
+### Optional: Build from source
 
 2. Build and run tests
 
@@ -26,6 +28,24 @@ make all
 ```
 
 ## Usage
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/Seeingu/icu4xgo"
+)
+
+func main() {
+	locale := icu4xgo.NewLocale("zh-Hans-CN-u-ca-chinese-hc-h12")
+	defer locale.Free()
+	fmt.Println(locale.BaseName()) // zh-Hans-CN
+	hc, _ := locale.HourCycle()
+	fmt.Println(hc) // h12
+}
+```
 
 ## Contributing
 
