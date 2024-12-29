@@ -2,19 +2,27 @@
 #include <string.h>
 #include <stdlib.h>
 
-IGCollator *ig_init_collator(IGLocale *locale)
+CollatorOptionsV1 ig_options_to_icu4x(IGCollatorOptions igOptions)
+{
+    CollatorOptionsV1 options = {
+        .strength = {
+            .is_ok = true,
+            .ok = igOptions.strength},
+        .alternate_handling = {.is_ok = true, .ok = igOptions.alternate_handling},
+        .case_first = {.is_ok = true, .ok = igOptions.case_first},
+        .max_variable = {.is_ok = true, .ok = igOptions.max_variable},
+        .case_level = {.is_ok = true, .ok = igOptions.case_level},
+        .numeric = {.is_ok = true, .ok = igOptions.numeric},
+        .backward_second_level = {.is_ok = true, .ok = igOptions.backward_second_level},
+    };
+    return options;
+}
+
+IGCollator *ig_init_collator(IGLocale *locale, IGCollatorOptions igOptions)
 {
     IGCollator *c = malloc(sizeof(IGCollator));
-    CollatorOptionsV1 options = {
-        .strength = CollatorStrength_Secondary,
-        .alternate_handling = CollatorAlternateHandling_NonIgnorable,
-        .case_first = CollatorCaseFirst_Off,
-        .max_variable = CollatorMaxVariable_Punctuation,
-        .case_level = CollatorCaseLevel_Off,
-        .numeric = CollatorNumeric_Off,
-        .backward_second_level = CollatorBackwardSecondLevel_Off};
-
     DataProvider *dataProvider = icu4x_DataProvider_compiled_mv1();
+    CollatorOptionsV1 options = ig_options_to_icu4x(igOptions);
     icu4x_Collator_create_v1_mv1_result result = icu4x_Collator_create_v1_mv1(dataProvider, locale->locale, options);
     if (!result.is_ok)
     {
