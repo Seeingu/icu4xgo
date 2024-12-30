@@ -4,6 +4,7 @@ package icu4xgo
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
+import "runtime"
 
 type Collator struct {
 	ptr *C.IGCollator
@@ -11,9 +12,13 @@ type Collator struct {
 
 func NewCollator(l *Locale) *Collator {
 	options := CollatorOptions{}
-	return &Collator{
+	c := &Collator{
 		ptr: C.ig_init_collator(l.ptr, options.ToC()),
 	}
+	runtime.SetFinalizer(c, func(c *Collator) {
+		c.free()
+	})
+	return c
 }
 
 func NewCollatorWithOptions(l *Locale, options CollatorOptions) *Collator {
@@ -27,6 +32,6 @@ func (c *Collator) Compare(a, b string) int {
 	return int(result)
 }
 
-func (c *Collator) Free() {
+func (c *Collator) free() {
 	C.ig_free_collator(c.ptr)
 }

@@ -5,16 +5,24 @@ package icu4xgo
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
-import "fmt"
+
+import (
+	"fmt"
+	"runtime"
+)
 
 type Locale struct {
 	ptr *C.IGLocale
 }
 
 func NewLocale(s string) *Locale {
-	return &Locale{
+	l := &Locale{
 		ptr: C.ig_init_locale(C.CString(s)),
 	}
+	runtime.SetFinalizer(l, func(l *Locale) {
+		l.free()
+	})
+	return l
 }
 
 func (l *Locale) Language() string {
@@ -89,6 +97,6 @@ func (l *Locale) Numeric() (bool, bool) {
 	return nu == "true", true
 }
 
-func (l *Locale) Free() {
+func (l *Locale) free() {
 	C.ig_free_locale(l.ptr)
 }
