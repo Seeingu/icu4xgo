@@ -7,6 +7,36 @@ import (
 )
 
 func TestSegmenter(t *testing.T) {
+	t.Run("GraphemeSegmenter", func(t *testing.T) {
+		s := NewGraphemeSegmenter("Hä!Wo")
+		segments := []GraphemeSegmenterNextResult{
+			{},
+			{
+				Segment: "H",
+				Index:   1,
+			},
+			{
+				Segment: "ä",
+				Index:   3,
+			},
+			{
+				Segment: "!",
+				Index:   4,
+			},
+			{
+				Segment: "W",
+				Index:   5,
+			},
+			{
+				Segment: "o",
+				Index:   6,
+			},
+		}
+		for _, seg := range segments {
+			assert.Equal(t, seg, s.Next())
+		}
+	})
+
 	t.Run("WordSegmenter", func(t *testing.T) {
 		s := NewWordSegmenter("Hello, world!")
 		segments := []WordSegmenterNextResult{
