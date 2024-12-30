@@ -4,6 +4,7 @@ package icu4xgo
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
+import "runtime"
 
 type PluralRules struct {
 	ptr *C.IGPluralRules
@@ -28,18 +29,23 @@ const (
 )
 
 func NewPluralRules(l *Locale, t PluralRulesType) *PluralRules {
+	var p *PluralRules
 	if t == Cardinal {
-		return &PluralRules{
+		p = &PluralRules{
 			ptr: C.ig_init_cardinal_plural_rules(l.ptr),
 		}
 	} else {
-		return &PluralRules{
+		p = &PluralRules{
 			ptr: C.ig_init_ordinal_plural_rules(l.ptr),
 		}
 	}
+	runtime.SetFinalizer(p, func(p *PluralRules) {
+		p.free()
+	})
+	return p
 }
 
-func (p *PluralRules) Free() {
+func (p *PluralRules) free() {
 	C.ig_free_plural_rules(p.ptr)
 }
 
