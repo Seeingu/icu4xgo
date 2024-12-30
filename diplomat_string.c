@@ -1,4 +1,4 @@
-#include "./ig_diplomat_string.h"
+#include "./ig_string.h"
 #include <stdlib.h>
 
 IGStringWriter *ig_init_string_writer()
