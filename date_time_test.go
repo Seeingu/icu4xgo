@@ -13,7 +13,15 @@ func TestDateTimeFormatter(t *testing.T) {
 	assert.Equal(t, datetime.Gregorian, dt.CalendarKind())
 	dt.SetTimeZone()
 	assert.Equal(t, "unk", dt.TimeZoneId())
-	dt.SetDateTime()
+	dt.SetDateTime(DateTimeArgs{
+		year:       2021,
+		month:      2,
+		day:        1,
+		hour:       0,
+		minute:     12,
+		second:     23,
+		nanosecond: 23,
+	})
 	assert.Equal(t, 32, dt.DayOfYear())
 	dt.SetFormatter(DateTimeLengthLong)
 	f, err := dt.Format()
