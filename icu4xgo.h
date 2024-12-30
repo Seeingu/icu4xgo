@@ -6,5 +6,6 @@
 #include "./ig_plural_rules.h"
 #include "./ig_date_time.h"
 #include "./ig_segmenter.h"
+#include "./ig_list_formatter.h"
 
 #endif // ICUGO_H
