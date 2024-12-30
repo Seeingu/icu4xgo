@@ -12,8 +12,8 @@ Prerequisites
 
 ```bash
 # or use latest commit, e.g:
-# go get github.com/Seeingu/icu4xgo@2188b6255e13106e0ee1725170037a0cf1777e8f
-go get github.com/Seeingu/icu4xgo@v0.1.1
+# go get github.com/Seeingu/icu4xgo@4ebc70a0d4977f56b26a2eb65d77267b2c57e8c4
+go get github.com/Seeingu/icu4xgo@v0.1.2
 
 # If you encounter permission issues, run make with sudo
 cd `go list -f "{{.Dir}}" github.com/Seeingu/icu4xgo` && make rustlib
@@ -40,7 +40,6 @@ import (
 
 func main() {
 	locale := icu4xgo.NewLocale("zh-Hans-CN-u-ca-chinese-hc-h12")
-	defer locale.Free()
 	fmt.Println(locale.BaseName()) // zh-Hans-CN
 	hc, _ := locale.HourCycle()
 	fmt.Println(hc) // h12
