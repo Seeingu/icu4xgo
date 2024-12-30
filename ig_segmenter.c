@@ -53,3 +53,45 @@ void ig_free_word_segmenter(IGWordSegmenter *ws)
     icu4x_WordBreakIteratorLatin1_destroy_mv1(ws->iterator.latin1);
     free(ws);
 }
+
+IGSentenceSegmenter *ig_init_sentence_segmenter()
+{
+    DataProvider *dataProvider = icu4x_DataProvider_compiled_mv1();
+    IGSentenceSegmenter *segmenter = malloc(sizeof(IGSentenceSegmenter));
+    icu4x_SentenceSegmenter_create_mv1_result result =
+        icu4x_SentenceSegmenter_create_mv1(dataProvider);
+    segmenter->is_ok = result.is_ok;
+    if (!segmenter->is_ok)
+    {
+        return segmenter;
+    }
+    segmenter->segmenter = result.ok;
+    return segmenter;
+}
+
+void *ig_init_sentence_iterator_utf8(IGSentenceSegmenter *ss, const char *s)
+{
+    DiplomatStringView input = {
+        s,
+        strlen(s)};
+    ss->iterator.utf8 = icu4x_SentenceSegmenter_segment_utf8_mv1(ss->segmenter, input);
+}
+
+int ig_sentence_iterator_next(IGSentenceSegmenter *ss)
+{
+    if (ss->iterator.utf8 == NULL)
+    {
+        // TODO: unimplemented
+        exit(1);
+    }
+    return icu4x_SentenceBreakIteratorUtf8_next_mv1(ss->iterator.utf8);
+}
+
+void ig_free_sentence_segmenter(IGSentenceSegmenter *ss)
+{
+    icu4x_SentenceSegmenter_destroy_mv1(ss->segmenter);
+    icu4x_SentenceBreakIteratorUtf8_destroy_mv1(ss->iterator.utf8);
+    icu4x_SentenceBreakIteratorUtf16_destroy_mv1(ss->iterator.utf16);
+    icu4x_SentenceBreakIteratorLatin1_destroy_mv1(ss->iterator.latin1);
+    free(ss);
+}

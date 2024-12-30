@@ -6,46 +6,74 @@ package icu4xgo
 import "C"
 import "runtime"
 
-type Segmenter struct {
+type WordSegmenter struct {
 	ptr    *C.IGWordSegmenter
 	source string
 	index  int
 }
 
-type SegmenterType int
-
-const (
-	WordSegmenter SegmenterType = iota
-	SentenceSegmenter
-)
-
-func NewSegmenter(st SegmenterType, source string) *Segmenter {
-	s := &Segmenter{
+func NewWordSegmenter(source string) *WordSegmenter {
+	s := &WordSegmenter{
 		ptr:    C.ig_init_word_segmenter(),
 		source: source,
 	}
 	C.ig_init_word_iterator_utf8(s.ptr, C.CString(s.source))
-	runtime.SetFinalizer(s, (*Segmenter).free)
+	runtime.SetFinalizer(s, (*WordSegmenter).free)
 	return s
 }
 
-type SegmenterNextResult struct {
+type WordSegmenterNextResult struct {
 	Segment    string
 	Index      int
 	IsWordLike bool
 }
 
-func (s *Segmenter) Next() SegmenterNextResult {
+func (s *WordSegmenter) Next() WordSegmenterNextResult {
 	newIndex := C.ig_word_iterator_next(s.ptr)
 	word := s.source[s.index:newIndex]
 	s.index = int(newIndex)
-	return SegmenterNextResult{
+	return WordSegmenterNextResult{
 		Segment:    word,
 		Index:      s.index,
 		IsWordLike: bool(C.ig_word_iterator_is_word_like(s.ptr)),
 	}
 }
 
-func (s *Segmenter) free() {
+func (s *WordSegmenter) free() {
 	C.ig_free_word_segmenter(s.ptr)
+}
+
+type SentenceSegmenter struct {
+	ptr    *C.IGSentenceSegmenter
+	source string
+	index  int
+}
+
+func NewSentenceSegmenter(source string) *SentenceSegmenter {
+	s := &SentenceSegmenter{
+		ptr:    C.ig_init_sentence_segmenter(),
+		source: source,
+	}
+	C.ig_init_sentence_iterator_utf8(s.ptr, C.CString(s.source))
+	runtime.SetFinalizer(s, (*SentenceSegmenter).free)
+	return s
+}
+
+type SentenceSegmenterNextResult struct {
+	Segment string
+	Index   int
+}
+
+func (s *SentenceSegmenter) Next() SentenceSegmenterNextResult {
+	newIndex := C.ig_sentence_iterator_next(s.ptr)
+	sentence := s.source[s.index:newIndex]
+	s.index = int(newIndex)
+	return SentenceSegmenterNextResult{
+		Segment: sentence,
+		Index:   s.index,
+	}
+}
+
+func (s *SentenceSegmenter) free() {
+	C.ig_free_sentence_segmenter(s.ptr)
 }
