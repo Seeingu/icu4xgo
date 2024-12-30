@@ -4,7 +4,12 @@ package icu4xgo
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
-import "errors"
+
+import (
+	"errors"
+
+	"github.com/Seeingu/icu4xgo/datetime"
+)
 
 type DateTimeFormatter struct {
 	tzPtr        *C.IGTimeZoneInfo
@@ -21,9 +26,9 @@ func NewDateTimeFormatter(l *Locale) *DateTimeFormatter {
 	return f
 }
 
-func (f *DateTimeFormatter) CalendarKind() int {
+func (f *DateTimeFormatter) CalendarKind() datetime.AnyCalendarKind {
 	kind := C.ig_calendar_kind(f.calendar)
-	return int(kind)
+	return datetime.AnyCalendarKind(kind)
 }
 
 func (f *DateTimeFormatter) TimeZoneId() string {
