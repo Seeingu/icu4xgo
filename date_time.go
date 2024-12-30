@@ -7,6 +7,7 @@ import "C"
 
 import (
 	"errors"
+	"runtime"
 
 	"github.com/Seeingu/icu4xgo/datetime"
 )
@@ -23,6 +24,7 @@ func NewDateTimeFormatter(l *Locale) *DateTimeFormatter {
 	f := &DateTimeFormatter{}
 	f.locale = l
 	f.calendar = C.ig_init_calendar(l.ptr)
+	runtime.SetFinalizer(f, (*DateTimeFormatter).free)
 	return f
 }
 
@@ -35,15 +37,19 @@ func (f *DateTimeFormatter) TimeZoneId() string {
 	return C.GoString(C.ig_time_zone_info_id(f.tzPtr))
 }
 
-func (f *DateTimeFormatter) SetDateTime() *DateTimeFormatter {
+type DateTimeArgs struct {
+	year, month, day, hour, minute, second, nanosecond int
+}
+
+func (f *DateTimeFormatter) SetDateTime(args DateTimeArgs) *DateTimeFormatter {
 	codes := C.IGDateTimeCalendarCodes{
-		year:       2021,
-		month:      2,
-		day:        1,
-		hour:       0,
-		minute:     12,
-		second:     23,
-		nanosecond: 0,
+		year:       C.int(args.year),
+		month:      C.uint8_t(args.month),
+		day:        C.uint8_t(args.day),
+		hour:       C.uint8_t(args.hour),
+		minute:     C.uint8_t(args.minute),
+		second:     C.uint8_t(args.second),
+		nanosecond: C.uint32_t(args.nanosecond),
 		calendar:   f.calendar,
 	}
 	f.datetimePtr = C.ig_init_datetime_from_codes(codes)
@@ -80,7 +86,8 @@ func (f *DateTimeFormatter) DayOfYear() int {
 	return int(C.icu4x_DateTime_day_of_year_mv1(f.datetimePtr.datetime))
 }
 
-func (f *DateTimeFormatter) Free() {
+func (f *DateTimeFormatter) free() {
+	C.ig_free_calendar(f.calendar)
 	C.ig_free_time_zone_info(f.tzPtr)
 	C.ig_free_datetime(f.datetimePtr)
 	C.ig_free_zoned_date_time_formatter(f.formatterPtr)
