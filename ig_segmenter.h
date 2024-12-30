@@ -3,6 +3,7 @@
 
 #include "./icu4x/WordSegmenter.h"
 #include "./icu4x/SentenceSegmenter.h"
+#include "./icu4x/GraphemeClusterSegmenter.h"
 #include "./icu4x/DataProvider.h"
 #include "./icu4x/WordBreakIteratorUtf8.h"
 #include "./icu4x/WordBreakIteratorUtf16.h"
@@ -10,8 +11,31 @@
 #include "./icu4x/SentenceBreakIteratorUtf8.h"
 #include "./icu4x/SentenceBreakIteratorUtf16.h"
 #include "./icu4x/SentenceBreakIteratorLatin1.h"
+#include "./icu4x/GraphemeClusterBreakIteratorUtf8.h"
+#include "./icu4x/GraphemeClusterBreakIteratorUtf16.h"
+#include "./icu4x/GraphemeClusterBreakIteratorLatin1.h"
 
 #include <stdlib.h>
+
+typedef struct IGGraphemeClusterSegmenter
+{
+    GraphemeClusterSegmenter *segmenter;
+    bool is_ok;
+    union
+    {
+        GraphemeClusterBreakIteratorUtf8 *utf8;
+        GraphemeClusterBreakIteratorUtf16 *utf16;
+        GraphemeClusterBreakIteratorLatin1 *latin1;
+    } iterator;
+} IGGraphemeClusterSegmenter;
+
+IGGraphemeClusterSegmenter *ig_init_grapheme_segmenter();
+
+void ig_init_grapheme_iterator_utf8(IGGraphemeClusterSegmenter *gs, const char *s);
+
+int ig_grapheme_iterator_next(IGGraphemeClusterSegmenter *gs);
+
+void ig_free_grapheme_segmenter(IGGraphemeClusterSegmenter *gs);
 
 typedef struct IGWordSegmenter
 {
@@ -27,7 +51,7 @@ typedef struct IGWordSegmenter
 
 IGWordSegmenter *ig_init_word_segmenter();
 
-void *ig_init_word_iterator_utf8(IGWordSegmenter *ws, const char *s);
+void ig_init_word_iterator_utf8(IGWordSegmenter *ws, const char *s);
 
 int ig_word_iterator_next(IGWordSegmenter *ws);
 

@@ -1,6 +1,43 @@
 #include "./ig_segmenter.h"
 #include <string.h>
 
+IGGraphemeClusterSegmenter *ig_init_grapheme_segmenter()
+{
+    DataProvider *dataProvider = icu4x_DataProvider_compiled_mv1();
+    IGGraphemeClusterSegmenter *segmenter = malloc(sizeof(IGGraphemeClusterSegmenter));
+    icu4x_GraphemeClusterSegmenter_create_mv1_result result = icu4x_GraphemeClusterSegmenter_create_mv1(dataProvider);
+    segmenter->is_ok = result.is_ok;
+    if (!segmenter->is_ok)
+    {
+        return segmenter;
+    }
+    segmenter->segmenter = result.ok;
+    return segmenter;
+}
+
+void ig_init_grapheme_iterator_utf8(IGGraphemeClusterSegmenter *gs, const char *s)
+{
+    DiplomatStringView input = {
+        s,
+        strlen(s)};
+    gs->iterator.utf8 = icu4x_GraphemeClusterSegmenter_segment_utf8_mv1(gs->segmenter, input);
+}
+
+int ig_grapheme_iterator_next(IGGraphemeClusterSegmenter *gs)
+{
+    // TODO: utf16, latin1
+    return icu4x_GraphemeClusterBreakIteratorUtf8_next_mv1(gs->iterator.utf8);
+}
+
+void ig_free_grapheme_segmenter(IGGraphemeClusterSegmenter *gs)
+{
+    icu4x_GraphemeClusterSegmenter_destroy_mv1(gs->segmenter);
+    icu4x_GraphemeClusterBreakIteratorUtf8_destroy_mv1(gs->iterator.utf8);
+    icu4x_GraphemeClusterBreakIteratorUtf16_destroy_mv1(gs->iterator.utf16);
+    icu4x_GraphemeClusterBreakIteratorLatin1_destroy_mv1(gs->iterator.latin1);
+    free(gs);
+}
+
 IGWordSegmenter *ig_init_word_segmenter()
 {
     DataProvider *dataProvider = icu4x_DataProvider_compiled_mv1();
@@ -16,7 +53,7 @@ IGWordSegmenter *ig_init_word_segmenter()
     return segmenter;
 }
 
-void *ig_init_word_iterator_utf8(IGWordSegmenter *ws, const char *s)
+void ig_init_word_iterator_utf8(IGWordSegmenter *ws, const char *s)
 {
     DiplomatStringView input = {
         s,

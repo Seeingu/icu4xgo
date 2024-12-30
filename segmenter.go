@@ -6,6 +6,41 @@ package icu4xgo
 import "C"
 import "runtime"
 
+type GraphemeSegmenter struct {
+	ptr    *C.IGGraphemeClusterSegmenter
+	source string
+	index  int
+}
+
+func NewGraphemeSegmenter(source string) *GraphemeSegmenter {
+	s := &GraphemeSegmenter{
+		ptr:    C.ig_init_grapheme_segmenter(),
+		source: source,
+	}
+	C.ig_init_grapheme_iterator_utf8(s.ptr, C.CString(s.source))
+	runtime.SetFinalizer(s, (*GraphemeSegmenter).free)
+	return s
+}
+
+type GraphemeSegmenterNextResult struct {
+	Segment string
+	Index   int
+}
+
+func (s *GraphemeSegmenter) Next() GraphemeSegmenterNextResult {
+	newIndex := C.ig_grapheme_iterator_next(s.ptr)
+	grapheme := s.source[s.index:newIndex]
+	s.index = int(newIndex)
+	return GraphemeSegmenterNextResult{
+		Segment: grapheme,
+		Index:   s.index,
+	}
+}
+
+func (s *GraphemeSegmenter) free() {
+	C.ig_free_grapheme_segmenter(s.ptr)
+}
+
 type WordSegmenter struct {
 	ptr    *C.IGWordSegmenter
 	source string
