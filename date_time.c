@@ -1,4 +1,5 @@
 #include "./ig_date_time.h"
+#include "./ig_diplomat_string.h"
 #include <stdio.h>
 
 IGDateTime *ig_init_datetime_from_codes(IGDateTimeCalendarCodes codes)
@@ -23,25 +24,20 @@ IGDateTime *ig_init_datetime_from_codes(IGDateTimeCalendarCodes codes)
 
 const char *ig_datetime_format(IGZonedDateTimeFormatter *formatter, IGDateTime *datetime, IGTimeZoneInfo *timezone)
 {
-    DiplomatWrite *write = diplomat_buffer_write_create(0);
+    IGStringWriter *w = ig_init_string_writer();
     icu4x_ZonedDateTimeFormatter_format_datetime_with_custom_time_zone_mv1_result result =
         icu4x_ZonedDateTimeFormatter_format_datetime_with_custom_time_zone_mv1(
             formatter->formatter,
             datetime->datetime,
             timezone->timezone,
-            write);
+            w->write);
     if (!result.is_ok)
     {
         char err[sizeof(int)];
         sprintf(err, "format err: %d", result.err);
         return err;
     }
-    size_t length = diplomat_buffer_write_len(write);
-    if (length == 0)
-    {
-        return "";
-    }
-    return diplomat_buffer_write_get_bytes(write);
+    return ig_string_writer_to_string(w);
 }
 
 void ig_free_datetime(IGDateTime *datetime)
