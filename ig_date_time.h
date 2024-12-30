@@ -18,6 +18,7 @@ typedef struct IGDateTime
 typedef struct IGZonedDateTimeFormatter
 {
     ZonedDateTimeFormatter *formatter;
+    bool is_ok;
 } IGZonedDateTimeFormatter;
 
 typedef struct IGTimeZoneInfo

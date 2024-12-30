@@ -4,6 +4,7 @@ package icu4xgo
 //#include <stdlib.h>
 //#include <string.h>
 import "C"
+import "errors"
 
 type DateTimeFormatter struct {
 	tzPtr        *C.IGTimeZoneInfo
@@ -62,9 +63,12 @@ func (f *DateTimeFormatter) SetFormatter(length DateTimeLength) *DateTimeFormatt
 	return f
 }
 
-func (f *DateTimeFormatter) Format() string {
-	result := C.ig_datetime_format(f.formatterPtr, f.datetimePtr, f.tzPtr)
-	return C.GoString(result)
+func (f *DateTimeFormatter) Format() (s string, err error) {
+	result := C.GoString(C.ig_datetime_format(f.formatterPtr, f.datetimePtr, f.tzPtr))
+	if f.formatterPtr.is_ok {
+		return result, nil
+	}
+	return "", errors.New(result)
 }
 
 func (f *DateTimeFormatter) DayOfYear() int {

@@ -1,6 +1,23 @@
 #include "./ig_date_time.h"
-#include "./ig_diplomat_string.h"
+#include "./ig_string.h"
+#include "./ig_utils.h"
 #include <stdio.h>
+
+const char *DateTimeFormatError_to_string(DateTimeFormatError error)
+{
+    EnumMapping mappings[] = {
+        {DateTimeFormatError_Unknown, "Unknown"},
+        {DateTimeFormatError_MissingInputField, "Missing Input Field"},
+        {DateTimeFormatError_ZoneInfoMissingFields, "Zone Info Missing Fields"},
+        {DateTimeFormatError_InvalidEra, "Invalid Era"},
+        {DateTimeFormatError_InvalidMonthCode, "Invalid Month Code"},
+        {DateTimeFormatError_InvalidCyclicYear, "Invalid Cyclic Year"},
+        {DateTimeFormatError_NamesNotLoaded, "Names Not Loaded"},
+        {DateTimeFormatError_FixedDecimalFormatterNotLoaded, "Fixed Decimal Formatter Not Loaded"},
+        {DateTimeFormatError_UnsupportedField, "Unsupported Field"}};
+    int mappings_count = sizeof(mappings) / sizeof(mappings[0]);
+    return ig_format_enum(error, mappings, mappings_count);
+}
 
 IGDateTime *ig_init_datetime_from_codes(IGDateTimeCalendarCodes codes)
 {
@@ -31,11 +48,11 @@ const char *ig_datetime_format(IGZonedDateTimeFormatter *formatter, IGDateTime *
             datetime->datetime,
             timezone->timezone,
             w->write);
-    if (!result.is_ok)
+
+    formatter->is_ok = result.is_ok;
+    if (!formatter->is_ok)
     {
-        char err[sizeof(int)];
-        sprintf(err, "format err: %d", result.err);
-        return err;
+        return DateTimeFormatError_to_string(result.err);
     }
     return ig_string_writer_to_string(w);
 }
