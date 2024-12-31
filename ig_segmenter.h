@@ -73,7 +73,7 @@ typedef struct IGSentenceSegmenter
 
 IGSentenceSegmenter *ig_init_sentence_segmenter();
 
-void *ig_init_sentence_iterator_utf8(IGSentenceSegmenter *ss, const char *s);
+void ig_init_sentence_iterator_utf8(IGSentenceSegmenter *ss, const char *s);
 
 int ig_sentence_iterator_next(IGSentenceSegmenter *ss);
 
