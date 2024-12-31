@@ -11,4 +11,6 @@ typedef struct IGStringWriter
 IGStringWriter *ig_init_string_writer();
 const char *ig_string_writer_to_string(IGStringWriter *view);
 
+DiplomatStringView ig_init_string(const char *s);
+
 #endif // ICUGO_DIPLOAMAT_STRING_H

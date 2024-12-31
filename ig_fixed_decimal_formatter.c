@@ -21,9 +21,7 @@ IGFixedDecimalFormatter *ig_init_fixed_decimal_formatter(
 // TODO: different types of fixed decimal formatting
 const char *ig_fixed_decimal_format(IGFixedDecimalFormatter *formatter, const char *s)
 {
-    DiplomatStringView input = {
-        s,
-        strlen(s)};
+    DiplomatStringView input = ig_init_string(s);
     icu4x_FixedDecimal_from_string_mv1_result result = icu4x_FixedDecimal_from_string_mv1(input);
     if (!result.is_ok)
     {

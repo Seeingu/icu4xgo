@@ -40,11 +40,7 @@ void ig_free_collator(IGCollator *collator)
 
 int8_t ig_collator_compare(IGCollator *c, const char *left, const char *right)
 {
-    DiplomatStringView left_str = {
-        left,
-        strlen(left)};
-    DiplomatStringView right_str = {
-        right,
-        strlen(right)};
+    DiplomatStringView left_str = ig_init_string(left);
+    DiplomatStringView right_str = ig_init_string(right);
     return icu4x_Collator_compare_utf8_mv1(c->collator, left_str, right_str);
 }
