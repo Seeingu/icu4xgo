@@ -106,7 +106,7 @@ IGSentenceSegmenter *ig_init_sentence_segmenter()
     return segmenter;
 }
 
-void *ig_init_sentence_iterator_utf8(IGSentenceSegmenter *ss, const char *s)
+void ig_init_sentence_iterator_utf8(IGSentenceSegmenter *ss, const char *s)
 {
     DiplomatStringView input = {
         s,
