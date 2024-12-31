@@ -7,9 +7,7 @@ IGLocale *ig_init_locale(const char *localeText)
 {
     IGLocale *l = malloc(sizeof(IGLocale));
     l->source = localeText;
-    struct DiplomatStringView locale_text_str = {
-        localeText,
-        strlen(localeText)};
+    struct DiplomatStringView locale_text_str = ig_init_string(localeText);
 
     icu4x_Locale_from_string_mv1_result locale_result = icu4x_Locale_from_string_mv1(locale_text_str);
     if (!locale_result.is_ok)
@@ -51,9 +49,7 @@ const char *ig_get_locale_region(IGLocale *IGLocale)
 const char *ig_get_locale_extension(IGLocale *IGLocale, const char *extension)
 {
     IGStringWriter *w = ig_init_string_writer();
-    struct DiplomatStringView extension_str = {
-        extension,
-        strlen(extension)};
+    struct DiplomatStringView extension_str = ig_init_string(extension);
     icu4x_Locale_get_unicode_extension_mv1_result result = icu4x_Locale_get_unicode_extension_mv1(IGLocale->locale, extension_str, w->write);
     if (!result.is_ok)
     {

@@ -1,5 +1,6 @@
 #include "./ig_string.h"
 #include <stdlib.h>
+#include <string.h>
 
 IGStringWriter *ig_init_string_writer()
 {
@@ -16,4 +17,12 @@ const char *ig_string_writer_to_string(IGStringWriter *w)
         return "";
     }
     return diplomat_buffer_write_get_bytes(w->write);
+}
+
+DiplomatStringView ig_init_string(const char *s)
+{
+    return (DiplomatStringView){
+        .data = s,
+        .len = strlen(s),
+    };
 }

@@ -3,6 +3,7 @@
 #define ICUGO_PLURAL_RULES_H
 
 #include "./ig_locale.h"
+#include "./ig_string.h"
 #include "./icu4x/PluralRules.h"
 #include "./icu4x/PluralOperands.h"
 #include "./icu4x/DataProvider.h"

@@ -31,10 +31,7 @@ IGPluralRules *ig_init_ordinal_plural_rules(IGLocale *locale)
 
 void ig_init_operands(IGPluralRules *pl, const char *s)
 {
-    struct DiplomatStringView s_str = {
-        s,
-        strlen(s),
-    };
+    struct DiplomatStringView s_str = ig_init_string(s);
     icu4x_PluralOperands_from_string_mv1_result result = icu4x_PluralOperands_from_string_mv1(s_str);
     if (result.is_ok)
     {

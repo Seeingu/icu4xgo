@@ -1,6 +1,7 @@
 #ifndef ICUGO_SEGMENTER_H
 #define ICUGO_SEGMENTER_H
 
+#include "./ig_string.h"
 #include "./icu4x/WordSegmenter.h"
 #include "./icu4x/SentenceSegmenter.h"
 #include "./icu4x/GraphemeClusterSegmenter.h"

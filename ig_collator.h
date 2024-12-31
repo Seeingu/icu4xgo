@@ -2,6 +2,7 @@
 #define ICUGO_COLLATOR_H
 
 #include "./ig_locale.h"
+#include "./ig_string.h"
 #include "./icu4x/Collator.h"
 #include "./icu4x/CollatorMaxVariable.h"
 #include "./icu4x/DataProvider.h"
