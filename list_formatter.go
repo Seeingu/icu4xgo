@@ -42,20 +42,7 @@ func NewListFormatter(locale *Locale, initType ListInitType, listLength ListLeng
 }
 
 func (l *ListFormatter) Format(items []string) string {
-	if len(items) == 0 {
-		return ""
-	}
-	data := make([]C.DiplomatStringView, len(items))
-	for i, item := range items {
-		data[i] = C.DiplomatStringView{
-			data: C.CString(item),
-			len:  C.size_t(len(item)),
-		}
-	}
-	listView := C.DiplomatStringsView{
-		data: &data[0],
-		len:  C.size_t(len(items)),
-	}
+	listView := arrayToDiplomatStrings(items)
 	return C.GoString(C.ig_list_format(l.ptr, listView))
 }
 
