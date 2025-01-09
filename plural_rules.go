@@ -28,7 +28,7 @@ const (
 	PluralCategoryOther
 )
 
-func NewPluralRules(l *Locale, t PluralRulesType) *PluralRules {
+func NewPluralRules(l *CLocale, t PluralRulesType) *PluralRules {
 	var p *PluralRules
 	if t == Cardinal {
 		p = &PluralRules{

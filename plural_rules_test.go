@@ -8,7 +8,7 @@ import (
 
 func TestPluralRules(t *testing.T) {
 	t.Run("Cardinal in ar", func(t *testing.T) {
-		l := NewLocale("ar")
+		l := NewCLocale("ar")
 		p := NewPluralRules(l, Cardinal)
 		categories := p.Categories()
 		assert.Equal(t, len(categories), 6)
@@ -17,7 +17,7 @@ func TestPluralRules(t *testing.T) {
 	})
 
 	t.Run("Ordinal", func(t *testing.T) {
-		l := NewLocale("en-US")
+		l := NewCLocale("en-US")
 		p := NewPluralRules(l, Ordinal)
 		assert.Equal(t, p.Select(0), PluralCategoryOther)
 		assert.Equal(t, p.Select(1), PluralCategoryOne)

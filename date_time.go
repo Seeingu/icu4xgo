@@ -16,11 +16,11 @@ type DateTimeFormatter struct {
 	tzPtr        *C.IGTimeZoneInfo
 	datetimePtr  *C.IGDateTime
 	formatterPtr *C.IGZonedDateTimeFormatter
-	locale       *Locale
+	locale       *CLocale
 	calendar     *C.IGCalendar
 }
 
-func NewDateTimeFormatter(l *Locale) *DateTimeFormatter {
+func NewDateTimeFormatter(l *CLocale) *DateTimeFormatter {
 	f := &DateTimeFormatter{}
 	f.locale = l
 	f.calendar = C.ig_init_calendar(l.ptr)

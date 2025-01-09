@@ -8,7 +8,7 @@ import (
 )
 
 func TestDateTimeFormatter(t *testing.T) {
-	locale := NewLocale("en-US")
+	locale := NewCLocale("en-US")
 	dt := NewDateTimeFormatter(locale)
 	assert.Equal(t, datetime.Gregorian, dt.CalendarKind())
 	dt.SetTimeZone()
