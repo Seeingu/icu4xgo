@@ -16,7 +16,7 @@ type LocaleDarwin struct {
 
 var _ Locale = (*LocaleDarwin)(nil)
 
-func NewLocaleMac(identifier string) Locale {
+func NewLocale(identifier string) Locale {
 	locale := foundation.Locale_LocaleWithLocaleIdentifier(identifier)
 
 	variants := foundation.Locale_ComponentsFromLocaleIdentifier(identifier)
