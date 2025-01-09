@@ -19,7 +19,7 @@ const (
 	FixedDecimalGroupingStrategyMin2
 )
 
-func NewNumberFormatter(locale *Locale) *NumberFormatter {
+func NewNumberFormatter(locale *CLocale) *NumberFormatter {
 	n := &NumberFormatter{
 		ptr: C.ig_init_fixed_decimal_formatter(locale.ptr, C.FixedDecimalGroupingStrategy(FixedDecimalGroupingStrategyAuto)),
 	}

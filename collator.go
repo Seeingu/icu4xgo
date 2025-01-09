@@ -10,7 +10,7 @@ type Collator struct {
 	ptr *C.IGCollator
 }
 
-func NewCollator(l *Locale) *Collator {
+func NewCollator(l *CLocale) *Collator {
 	options := CollatorOptions{}
 	c := &Collator{
 		ptr: C.ig_init_collator(l.ptr, options.ToC()),
@@ -21,7 +21,7 @@ func NewCollator(l *Locale) *Collator {
 	return c
 }
 
-func NewCollatorWithOptions(l *Locale, options CollatorOptions) *Collator {
+func NewCollatorWithOptions(l *CLocale, options CollatorOptions) *Collator {
 	return &Collator{
 		ptr: C.ig_init_collator(l.ptr, options.ToC()),
 	}

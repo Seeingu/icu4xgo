@@ -29,7 +29,7 @@ const (
 	ListLengthNarrow
 )
 
-func NewListFormatter(locale *Locale, initType ListInitType, listLength ListLength) *ListFormatter {
+func NewListFormatter(locale *CLocale, initType ListInitType, listLength ListLength) *ListFormatter {
 	l := &ListFormatter{
 		ptr: C.ig_init_list_formatter(
 			locale.ptr,
