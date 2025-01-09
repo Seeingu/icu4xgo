@@ -7,8 +7,11 @@ import "C"
 import "runtime"
 
 type CNumberFormatter struct {
+	NumberFormatter
 	ptr *C.IGFixedDecimalFormatter
 }
+
+var _ NumberFormatter = (*CNumberFormatter)(nil)
 
 type FixedDecimalGroupingStrategy int
 
