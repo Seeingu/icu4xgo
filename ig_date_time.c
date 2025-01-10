@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_date_time.h"
 #include "./ig_string.h"
 #include "./ig_utils.h"

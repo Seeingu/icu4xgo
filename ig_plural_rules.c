@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_plural_rules.h"
 #include <string.h>
 #include <stdlib.h>

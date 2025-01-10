@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_string.h"
 #include <stdlib.h>
 #include <string.h>

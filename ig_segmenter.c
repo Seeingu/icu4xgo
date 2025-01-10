@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_segmenter.h"
 #include <string.h>
 

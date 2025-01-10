@@ -28,7 +28,7 @@ func TestListFormatter(t *testing.T) {
 	})
 	// FIXME: only support join by and
 	if runtime.GOOS == "darwin" {
-		return
+		t.Skip("darwin specific test")
 	}
 	t.Run("ListFormat or narrow in en-US", func(t *testing.T) {
 		locale := NewLocale("en-US")

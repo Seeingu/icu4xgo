@@ -1,6 +1,5 @@
 package icu4xgo
 
-import "C"
 import (
 	"github.com/Seeingu/icu4xgo/datetime"
 )

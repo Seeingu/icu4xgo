@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_fixed_decimal_formatter.h"
 
 IGFixedDecimalFormatter *ig_init_fixed_decimal_formatter(
