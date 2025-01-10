@@ -1,6 +1,9 @@
 # icu4xgo
 
-This is a Go binding to the [ICU4X](https://github.com/unicode-org/icu4x) C FFI
+Go Internalization library
+
+When on macOS, it uses the Foundation framework. 
+Otherwise, it uses the [ICU4X](https://github.com/unicode-org/icu4x) C FFI.
 
 ## Features
 
@@ -12,7 +15,7 @@ This is a Go binding to the [ICU4X](https://github.com/unicode-org/icu4x) C FFI
 
 ## Installation
 
-### macOS
+1. Get the package
 
 ```bash
 # or use latest commit, e.g:
@@ -20,17 +23,13 @@ This is a Go binding to the [ICU4X](https://github.com/unicode-org/icu4x) C FFI
 go get github.com/Seeingu/icu4xgo@v0.1.3
 ```
 
-### Other OS
+2. Link the C static library(on non-macOS systems)
 
 Prerequisites
 
 - [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html): We'll use Cargo to build C static library
 
 ```bash
-# or use latest commit, e.g:
-# go get github.com/Seeingu/icu4xgo@4ebc70a0d4977f56b26a2eb65d77267b2c57e8c4
-go get github.com/Seeingu/icu4xgo@v0.1.3
-
 # If you encounter permission issues, run make with sudo
 cd `go list -f "{{.Dir}}" github.com/Seeingu/icu4xgo` && make rustlib
 ```
