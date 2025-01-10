@@ -1,3 +1,6 @@
+//go:build !darwin
+// +build !darwin
+
 package icu4xgo
 
 //#include <icu4xgo.h>

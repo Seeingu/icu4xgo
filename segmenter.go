@@ -1,7 +1,5 @@
 package icu4xgo
 
-import "C"
-
 type GraphemeSegmenter interface {
 	Next() SegmenterNextResult
 }

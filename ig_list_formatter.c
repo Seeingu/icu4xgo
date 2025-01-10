@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_list_formatter.h"
 #include <stdlib.h>
 

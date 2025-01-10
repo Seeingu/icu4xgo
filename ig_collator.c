@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_collator.h"
 #include <string.h>
 #include <stdlib.h>

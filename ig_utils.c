@@ -1,3 +1,6 @@
+// go:build !darwin
+//  +build !darwin
+
 #include "./ig_utils.h"
 
 const char *ig_format_enum(int code, EnumMapping *mapping, int count)
