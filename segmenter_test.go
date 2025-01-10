@@ -1,15 +1,19 @@
 package icu4xgo
 
 import (
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSegmenter(t *testing.T) {
-	t.Run("GraphemeSegmenter", func(t *testing.T) {
+	if runtime.GOOS == "darwin" {
+		t.Skip("Not implemented on darwin")
+	}
+	t.Run("CGraphemeSegmenter", func(t *testing.T) {
 		s := NewGraphemeSegmenter("Hä!Wo")
-		segments := []GraphemeSegmenterNextResult{
+		segments := []SegmenterNextResult{
 			{},
 			{
 				Segment: "H",
@@ -37,9 +41,9 @@ func TestSegmenter(t *testing.T) {
 		}
 	})
 
-	t.Run("WordSegmenter", func(t *testing.T) {
+	t.Run("CWordSegmenter", func(t *testing.T) {
 		s := NewWordSegmenter("Hello, world!")
-		segments := []WordSegmenterNextResult{
+		segments := []SegmenterNextResult{
 			{},
 			{
 				Segment:    "Hello",
@@ -66,9 +70,9 @@ func TestSegmenter(t *testing.T) {
 			assert.Equal(t, seg, s.Next())
 		}
 	})
-	t.Run("SentenceSegmenter", func(t *testing.T) {
+	t.Run("CSentenceSegmenter", func(t *testing.T) {
 		s := NewSentenceSegmenter("Hello, world! How are you?")
-		segments := []SentenceSegmenterNextResult{
+		segments := []SegmenterNextResult{
 			{},
 			{
 				Segment: "Hello, world! ",
