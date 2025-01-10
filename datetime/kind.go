@@ -22,4 +22,6 @@ const (
 	IslamicUmmAlQura
 	Persian
 	Roc
+	// Unknown is a placeholder for an unknown calendar kind.
+	Unknown
 )

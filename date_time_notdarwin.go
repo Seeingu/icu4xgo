@@ -59,7 +59,8 @@ func (f *CDateTimeFormatter) SetDateTime(args DateTimeArgs) DateTimeFormatter {
 	return f
 }
 
-func (f *CDateTimeFormatter) SetTimeZone() DateTimeFormatter {
+// FIXME(linux)
+func (f *CDateTimeFormatter) SetTimeZone(tz string) DateTimeFormatter {
 	f.tzPtr = C.ig_init_time_zone_info()
 	return f
 }

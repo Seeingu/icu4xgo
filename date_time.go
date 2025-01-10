@@ -8,7 +8,7 @@ type DateTimeFormatter interface {
 	CalendarKind() datetime.AnyCalendarKind
 	TimeZoneId() string
 	SetDateTime(args DateTimeArgs) DateTimeFormatter
-	SetTimeZone() DateTimeFormatter
+	SetTimeZone(tz string) DateTimeFormatter
 	SetFormatter(length DateTimeLength) DateTimeFormatter
 	Format() (s string, err error)
 	DayOfYear() int

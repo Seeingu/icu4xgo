@@ -9,14 +9,12 @@ import (
 )
 
 func TestDateTimeFormatter(t *testing.T) {
-	if runtime.GOOS == "darwin" {
-		t.Skip("darwin specific test")
-	}
 	locale := NewLocale("en-US")
 	dt := NewDateTimeFormatter(locale)
 	assert.Equal(t, datetime.Gregorian, dt.CalendarKind())
-	dt.SetTimeZone()
-	assert.Equal(t, "unk", dt.TimeZoneId())
+	tz := "Australia/Sydney"
+	dt.SetTimeZone(tz)
+	assert.Equal(t, tz, dt.TimeZoneId())
 	dt.SetDateTime(DateTimeArgs{
 		year:       2021,
 		month:      2,
@@ -29,7 +27,11 @@ func TestDateTimeFormatter(t *testing.T) {
 	assert.Equal(t, 32, dt.DayOfYear())
 	dt.SetFormatter(DateTimeLengthLong)
 	f, err := dt.Format()
-	if assert.NoError(t, err) {
+	assert.NoError(t, err)
+	if runtime.GOOS == "darwin" {
+		assert.Equal(t, "February 1, 2021 at 3:12:23 AM GMT+11", f)
+	} else {
+		// FIXME(linux)
 		assert.Equal(t, "February 1, 2021, 12:12:23 AM GMT+?", f)
 	}
 }
