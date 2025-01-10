@@ -7,11 +7,25 @@ Otherwise, it uses the [ICU4X](https://github.com/unicode-org/icu4x) C FFI.
 
 ## Features
 
-- [x] Get Locale properties
-- [x] NumberFormatter
-- [ ] ListFormatter: join a list of items with ListInitType and ListLength
-- [ ] PluralRules
-- [ ] DateTimeFormatter
+| Feature           | macOS | Others |
+|-------------------|-------|--------|
+| Locale            | [x]   | [x]    |
+| NumberFormatter   | [x]   | [x]    |
+| ListFormatter     | [ ]   | [x]    |
+| PluralRules       | [ ]   | [x]    |
+| DateTimeFormatter | [x]   | [ ]    |
+| Collator          | [x]   | [x]    |
+| Segmenter         | [ ]   | [x]    |
+
+Issues:
+
+macOS:
+
+- [ ] join a list of items with ListInitType and ListLength
+
+others:
+
+- [ ] setTimezone not work
 
 ## Installation
 
