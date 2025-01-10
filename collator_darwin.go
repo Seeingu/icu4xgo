@@ -19,10 +19,6 @@ func NewCollator(l Locale) Collator {
 	return c
 }
 
-type _Comparator struct {
-	objc.Class
-}
-
 func (c *CollatorDarwin) compareOptionsLocale(a, b string, mask foundation.StringCompareOptions, locale objc.IObject) int {
 	var s foundation.String
 	other := b
