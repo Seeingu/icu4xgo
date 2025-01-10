@@ -80,3 +80,9 @@ func (l *LocaleDarwin) NumberingSystem() string {
 func (l *LocaleDarwin) Numeric() bool {
 	return false
 }
+
+// MARK: - type utils
+
+func GetFoundationLocale(locale Locale) foundation.Locale {
+	return locale.(*LocaleDarwin).ptr
+}
