@@ -18,6 +18,8 @@ var _ DateTimeFormatter = (*DateTimeFormatterDarwin)(nil)
 func NewDateTimeFormatter(l Locale) DateTimeFormatter {
 	f := foundation.NewDateFormatter()
 	f.SetLocale(GetFoundationLocale(l))
+	// Set default timezone to GMT
+	f.SetTimeZone(foundation.NewTimeZoneWithName("GMT"))
 	d := &DateTimeFormatterDarwin{
 		locale:    l,
 		formatter: &f,
@@ -36,6 +38,8 @@ func (d *DateTimeFormatterDarwin) TimeZoneId() string {
 
 func (d *DateTimeFormatterDarwin) SetDateTime(args DateTimeArgs) DateTimeFormatter {
 	components := foundation.NewDateComponents()
+	components.SetCalendar(d.formatter.Calendar())
+	components.SetTimeZone(d.formatter.TimeZone())
 	components.SetYear(args.year)
 	components.SetMonth(args.month)
 	components.SetDay(args.day)
@@ -43,7 +47,6 @@ func (d *DateTimeFormatterDarwin) SetDateTime(args DateTimeArgs) DateTimeFormatt
 	components.SetMinute(args.minute)
 	components.SetSecond(args.second)
 	components.SetNanosecond(args.nanosecond)
-	components.SetCalendar(d.formatter.Calendar())
 	d.components = components
 	d.date = components.Date()
 	return d
@@ -70,8 +73,7 @@ func (d *DateTimeFormatterDarwin) SetFormatter(length DateTimeLength) DateTimeFo
 }
 
 func (d *DateTimeFormatterDarwin) Format() (s string, err error) {
-	date := d.date
-	return d.formatter.StringFromDate(date), nil
+	return d.formatter.StringFromDate(d.date), nil
 }
 
 func (d *DateTimeFormatterDarwin) DayOfYear() int {
