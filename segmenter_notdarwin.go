@@ -9,36 +9,6 @@ package icu4xgo
 import "C"
 import "runtime"
 
-type CGraphemeSegmenter struct {
-	ptr    *C.IGGraphemeClusterSegmenter
-	source string
-	index  int
-}
-
-func NewGraphemeSegmenter(source string) *CGraphemeSegmenter {
-	s := &CGraphemeSegmenter{
-		ptr:    C.ig_init_grapheme_segmenter(),
-		source: source,
-	}
-	C.ig_init_grapheme_iterator_utf8(s.ptr, C.CString(s.source))
-	runtime.SetFinalizer(s, (*CGraphemeSegmenter).free)
-	return s
-}
-
-func (s *CGraphemeSegmenter) Next() SegmenterNextResult {
-	newIndex := C.ig_grapheme_iterator_next(s.ptr)
-	grapheme := s.source[s.index:newIndex]
-	s.index = int(newIndex)
-	return SegmenterNextResult{
-		Segment: grapheme,
-		Index:   s.index,
-	}
-}
-
-func (s *CGraphemeSegmenter) free() {
-	C.ig_free_grapheme_segmenter(s.ptr)
-}
-
 type CWordSegmenter struct {
 	ptr    *C.IGWordSegmenter
 	source string

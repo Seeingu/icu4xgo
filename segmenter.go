@@ -1,7 +1,30 @@
 package icu4xgo
 
-type GraphemeSegmenter interface {
-	Next() SegmenterNextResult
+import (
+	"github.com/clipperhouse/uax29/graphemes"
+	"github.com/clipperhouse/uax29/iterators"
+)
+
+type GraphemeSegmenter struct {
+	g *iterators.Segmenter
+}
+
+func NewGraphemeSegmenter(source string) *GraphemeSegmenter {
+	s := graphemes.NewSegmenter([]byte(source))
+	gs := &GraphemeSegmenter{
+		g: s,
+	}
+	return gs
+}
+
+func (s *GraphemeSegmenter) Next() SegmenterNextResult {
+	if s.g.Next() {
+		return SegmenterNextResult{
+			Segment: string(s.g.Bytes()),
+			Index:   s.g.End(),
+		}
+	}
+	return SegmenterNextResult{}
 }
 
 type WordSegmenter interface {
