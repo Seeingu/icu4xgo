@@ -1,6 +1,7 @@
 package icu4xgo
 
 import (
+	"runtime"
 	"testing"
 
 	"github.com/Seeingu/icu4xgo/datetime"
@@ -8,7 +9,10 @@ import (
 )
 
 func TestDateTimeFormatter(t *testing.T) {
-	locale := NewCLocale("en-US")
+	if runtime.GOOS == "darwin" {
+		t.Skip("darwin specific test")
+	}
+	locale := NewLocale("en-US")
 	dt := NewDateTimeFormatter(locale)
 	assert.Equal(t, datetime.Gregorian, dt.CalendarKind())
 	dt.SetTimeZone()
