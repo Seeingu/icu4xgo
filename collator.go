@@ -13,8 +13,6 @@ type Collator interface {
 	Compare(a, b string) int
 }
 
-// CollatorGeneral is a general collator support compare
-// strings without options
 type CollatorGeneral struct {
 	Collator
 	locale  Locale
@@ -23,8 +21,17 @@ type CollatorGeneral struct {
 
 var _ Collator = (*CollatorGeneral)(nil)
 
-func NewGeneralCollator(l Locale) *CollatorGeneral {
+func NewCollator(l Locale) *CollatorGeneral {
 	cl := collate.New(l.ToGoLanguage())
+	c := &CollatorGeneral{
+		locale:  l,
+		collate: cl,
+	}
+	return c
+}
+
+func NewCollatorWithOptions(l Locale, option collate.Option) *CollatorGeneral {
+	cl := collate.New(l.ToGoLanguage(), option)
 	c := &CollatorGeneral{
 		locale:  l,
 		collate: cl,
