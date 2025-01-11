@@ -11,6 +11,8 @@ import "C"
 import (
 	"fmt"
 	"runtime"
+
+	"golang.org/x/text/language"
 )
 
 type CLocale struct {
@@ -104,4 +106,8 @@ func (l *CLocale) Numeric() bool {
 
 func (l *CLocale) free() {
 	C.ig_free_locale(l.ptr)
+}
+
+func (l *CLocale) ToGoLanguage() language.Tag {
+	return language.Make(l.BaseName())
 }
