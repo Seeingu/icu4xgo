@@ -8,7 +8,7 @@ Otherwise, it uses the [ICU4X](https://github.com/unicode-org/icu4x) C FFI.
 ## Features
 
 | Feature           | macOS | Others |
-| ----------------- | ----- | ------ |
+|-------------------|-------|--------|
 | Locale            | [x]   | [x]    |
 | NumberFormatter   | [x]   | [x]    |
 | ListFormatter     | [ ]   | [x]    |
@@ -50,6 +50,8 @@ cd `go list -f "{{.Dir}}" github.com/Seeingu/icu4xgo` && make rustlib
 
 ## Usage
 
+### Get Locale properties
+
 ```go
 package main
 
@@ -64,6 +66,69 @@ func main() {
 	fmt.Println(locale.BaseName()) // zh-Hans-CN
 	hc := locale.HourCycle()
 	fmt.Println(hc) // h12
+}
+```
+
+### NumberFormatter
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/Seeingu/icu4xgo"
+)
+
+func main() {
+	l := icu4xgo.NewLocale("en-US")
+	nf := icu4xgo.NewNumberFormatter(l)
+	f, err := nf.Format("123456.789")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(f) // 123,456.789
+}
+```
+
+### Collator
+
+```go
+
+package main
+
+import (
+    "fmt"
+
+    "github.com/Seeingu/icu4xgo"
+)
+
+func main() {
+    l := icu4xgo.NewLocale("en-US")
+    c := icu4xgo.NewCollator(l)
+    r := c.Compare("a", "b")
+    fmt.Println(r) // -1
+}
+```
+
+### Segmenter
+
+```go
+
+package main
+
+import (
+    "fmt"
+
+    "github.com/Seeingu/icu4xgo"
+)
+
+func main() {
+    s := icu4xgo.NewWordSegmenter("Hello, 世界!")
+	fmt.Println(s.Next().Segment) // Hello
+    fmt.Println(s.Next().Segment) // ,
+	fmt.Println(s.Next().Segment) // 世界
 }
 ```
 
