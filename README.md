@@ -2,20 +2,20 @@
 
 Go Internalization library
 
-When on macOS, it uses the Foundation framework. 
+When on macOS, it uses the Foundation framework.
 Otherwise, it uses the [ICU4X](https://github.com/unicode-org/icu4x) C FFI.
 
 ## Features
 
 | Feature           | macOS | Others |
-|-------------------|-------|--------|
+| ----------------- | ----- | ------ |
 | Locale            | [x]   | [x]    |
 | NumberFormatter   | [x]   | [x]    |
 | ListFormatter     | [ ]   | [x]    |
 | PluralRules       | [ ]   | [x]    |
 | DateTimeFormatter | [x]   | [ ]    |
 | Collator          | [x]   | [x]    |
-| Segmenter         | [x]   | [ ]    |
+| Segmenter         | [x]   | [x]    |
 
 Issues:
 
@@ -26,7 +26,6 @@ macOS:
 others:
 
 - [ ] setTimezone not work
-- [ ] Segmenter should not return empty at the start
 
 ## Installation
 
