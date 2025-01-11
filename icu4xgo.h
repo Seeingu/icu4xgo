@@ -5,7 +5,6 @@
 #include "./ig_collator.h"
 #include "./ig_plural_rules.h"
 #include "./ig_date_time.h"
-#include "./ig_segmenter.h"
 #include "./ig_list_formatter.h"
 #include "./ig_fixed_decimal_formatter.h"
 
