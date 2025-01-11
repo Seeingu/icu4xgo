@@ -1,16 +1,12 @@
 package icu4xgo
 
 import (
-	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSegmenter(t *testing.T) {
-	if runtime.GOOS != "darwin" {
-		t.Skip("failed")
-	}
 	t.Run("GraphemeSegmenter", func(t *testing.T) {
 		s := NewGraphemeSegmenter("Hä!Wo")
 		segments := []SegmenterNextResult{

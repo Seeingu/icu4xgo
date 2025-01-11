@@ -3,69 +3,52 @@
 
 package icu4xgo
 
-//#include <icu4xgo.h>
-//#include <stdlib.h>
-//#include <string.h>
-import "C"
-import "runtime"
+import (
+	"github.com/clipperhouse/uax29/iterators"
+	"github.com/clipperhouse/uax29/iterators/filter"
+	"github.com/clipperhouse/uax29/sentences"
+	"github.com/clipperhouse/uax29/words"
+)
 
 type CWordSegmenter struct {
-	ptr    *C.IGWordSegmenter
-	source string
-	index  int
+	g *iterators.Segmenter
 }
 
 func NewWordSegmenter(source string) *CWordSegmenter {
 	s := &CWordSegmenter{
-		ptr:    C.ig_init_word_segmenter(),
-		source: source,
+		g: words.NewSegmenter([]byte(source)),
 	}
-	C.ig_init_word_iterator_utf8(s.ptr, C.CString(s.source))
-	runtime.SetFinalizer(s, (*CWordSegmenter).free)
 	return s
 }
 
 func (s *CWordSegmenter) Next() SegmenterNextResult {
-	newIndex := C.ig_word_iterator_next(s.ptr)
-	word := s.source[s.index:newIndex]
-	s.index = int(newIndex)
-	return SegmenterNextResult{
-		Segment:    word,
-		Index:      s.index,
-		IsWordLike: bool(C.ig_word_iterator_is_word_like(s.ptr)),
+	if s.g.Next() {
+		return SegmenterNextResult{
+			Segment:    s.g.Text(),
+			Index:      s.g.End(),
+			IsWordLike: filter.Wordlike(s.g.Bytes()),
+		}
 	}
-}
-
-func (s *CWordSegmenter) free() {
-	C.ig_free_word_segmenter(s.ptr)
+	return SegmenterNextResult{}
 }
 
 type CSentenceSegmenter struct {
-	ptr    *C.IGSentenceSegmenter
-	source string
-	index  int
+	g *iterators.Segmenter
 }
 
 func NewSentenceSegmenter(source string) *CSentenceSegmenter {
 	s := &CSentenceSegmenter{
-		ptr:    C.ig_init_sentence_segmenter(),
-		source: source,
+		g: sentences.NewSegmenter([]byte(source)),
 	}
-	C.ig_init_sentence_iterator_utf8(s.ptr, C.CString(s.source))
-	runtime.SetFinalizer(s, (*CSentenceSegmenter).free)
 	return s
 }
 
 func (s *CSentenceSegmenter) Next() SegmenterNextResult {
-	newIndex := C.ig_sentence_iterator_next(s.ptr)
-	sentence := s.source[s.index:newIndex]
-	s.index = int(newIndex)
-	return SegmenterNextResult{
-		Segment: sentence,
-		Index:   s.index,
+	if s.g.Next() {
+		return SegmenterNextResult{
+			Segment: s.g.Text(),
+			Index:   s.g.End(),
+		}
 	}
-}
-
-func (s *CSentenceSegmenter) free() {
-	C.ig_free_sentence_segmenter(s.ptr)
+	return SegmenterNextResult{}
 }

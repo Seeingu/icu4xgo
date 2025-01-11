@@ -20,7 +20,7 @@ func NewGraphemeSegmenter(source string) *GraphemeSegmenter {
 func (s *GraphemeSegmenter) Next() SegmenterNextResult {
 	if s.g.Next() {
 		return SegmenterNextResult{
-			Segment: string(s.g.Bytes()),
+			Segment: s.g.Text(),
 			Index:   s.g.End(),
 		}
 	}
