@@ -2,6 +2,7 @@ package icu4xgo
 
 import (
 	"github.com/progrium/darwinkit/macos/foundation"
+	"golang.org/x/text/language"
 )
 
 type LocaleDarwin struct {
@@ -85,4 +86,8 @@ func (l *LocaleDarwin) Numeric() bool {
 
 func GetFoundationLocale(locale Locale) foundation.Locale {
 	return locale.(*LocaleDarwin).ptr
+}
+
+func (l *LocaleDarwin) ToGoLanguage() language.Tag {
+	return language.Make(l.BaseName())
 }
