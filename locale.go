@@ -1,5 +1,7 @@
 package icu4xgo
 
+import "golang.org/x/text/language"
+
 type Locale interface {
 	Language() string
 	Script() string
@@ -12,4 +14,5 @@ type Locale interface {
 	Collation() string
 	NumberingSystem() string
 	Numeric() bool
+	ToGoLanguage() language.Tag
 }

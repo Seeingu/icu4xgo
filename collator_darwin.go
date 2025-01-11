@@ -6,15 +6,14 @@ import (
 )
 
 type CollatorDarwin struct {
-	Collator
-	locale Locale
+	*CollatorGeneral
 }
 
 var _ Collator = (*CollatorDarwin)(nil)
 
 func NewCollator(l Locale) Collator {
 	c := &CollatorDarwin{
-		locale: l,
+		CollatorGeneral: NewGeneralCollator(l),
 	}
 	return c
 }
@@ -41,12 +40,6 @@ func (c *CollatorDarwin) compareOptionsLocale(a, b string, mask foundation.Strin
 		return -int(rv)
 	}
 	return int(rv)
-}
-
-func (c *CollatorDarwin) Compare(a, b string) int {
-	return c.compareOptionsLocale(a, b,
-		0,
-		c.locale.(*LocaleDarwin).ptr)
 }
 
 func (c *CollatorDarwin) CompareMask(a, b string, mask CollatorMask) int {
