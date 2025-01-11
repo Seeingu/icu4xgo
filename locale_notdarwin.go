@@ -3,7 +3,6 @@
 
 package icu4xgo
 
-//#cgo LDFLAGS: -L./lib -licu_capi -lm
 //#include <icu4xgo.h>
 //#include <stdlib.h>
 //#include <string.h>
